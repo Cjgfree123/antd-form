@@ -1,62 +1,149 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-
+import { Form, Input, DatePicker, Col, TimePicker, Select, Cascader, InputNumber } from 'antd';
 const FormItem = Form.Item;
+const Option = Select.Option;
 
-class NormalLoginForm extends React.Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);//values:查询字段的值
-      }
-    });
-  }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 },
+  },
+};
 
-  // 支持字母、数字、下划线
-  handleVerify = (rule, value, callback) => {
-    const reg = /[^A-Z|a-z|0-9|_]+/g;
-    if (value && value.match(reg)) {
-      callback('只允许输入字母、数字、下划线');
-    }
-    callback();
-  };
+ReactDOM.render(
+  <Form>
+    <FormItem
+      {...formItemLayout}
+      label="Fail"
+      validateStatus="error"
+      help="Should be combination of numbers & alphabets"
+    >
+      <Input placeholder="unavailable choice" id="error" />
+    </FormItem>
 
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
-    };
-    const required = {
-      required: true,
-      message: 'Please input your username!',
-    };
+    <FormItem
+      {...formItemLayout}
+      label="Warning"
+      validateStatus="warning"
+    >
+      <Input placeholder="Warning" id="warning" />
+    </FormItem>
 
-    return (
-      <Form onSubmit={this.handleSubmit} >
-        <FormItem {...formItemLayout}>
-          {getFieldDecorator('userName', {
-            rules: [
-              required,
-              { validator: this.handleVerify },
-            ],
-          })(
-            <Input placeholder="Username" style={{width:300}}/>
-          )}
+    <FormItem
+      {...formItemLayout}
+      label="Validating"
+      hasFeedback
+      validateStatus="validating"
+      help="The information is being validated..."
+    >
+      <Input placeholder="I'm the content is being validated" id="validating" />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Success"
+      hasFeedback
+      validateStatus="success"
+    >
+      <Input placeholder="I'm the content" id="success" />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Warning"
+      hasFeedback
+      validateStatus="warning"
+    >
+      <Input placeholder="Warning" id="warning" />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Fail"
+      hasFeedback
+      validateStatus="error"
+      help="Should be combination of numbers & alphabets"
+    >
+      <Input placeholder="unavailable choice" id="error" />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Success"
+      hasFeedback
+      validateStatus="success"
+    >
+      <DatePicker style={{ width: '100%' }} />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Warning"
+      hasFeedback
+      validateStatus="warning"
+    >
+      <TimePicker style={{ width: '100%' }} />
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Error"
+      hasFeedback
+      validateStatus="error"
+    >
+      <Select defaultValue="1">
+        <Option value="1">Option 1</Option>
+        <Option value="2">Option 2</Option>
+        <Option value="3">Option 3</Option>
+      </Select>
+    </FormItem>
+
+    <FormItem
+      {...formItemLayout}
+      label="Validating"
+      hasFeedback
+      validateStatus="validating"
+      help="The information is being validated..."
+    >
+      <Cascader defaultValue={['1']} options={[]} />
+    </FormItem>
+
+    <FormItem
+      label="inline"
+      {...formItemLayout}
+    >
+      <Col span={11}>
+        <FormItem validateStatus="error" help="Please select the correct date">
+          <DatePicker />
         </FormItem>
+      </Col>
+      <Col span={2}>
+        <span style={{ display: 'inline-block', width: '100%', textAlign: 'center' }}>
+          -
+        </span>
+      </Col>
+      <Col span={11}>
         <FormItem>
-          <Button type="primary" htmlType="submit">
-            保存
-          </Button>
+          <DatePicker />
         </FormItem>
-      </Form>
-    );
-  }
-}
+      </Col>
+    </FormItem>
 
-const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
+    <FormItem
+      {...formItemLayout}
+      label="Success"
+      hasFeedback
+      validateStatus="success"
+    >
+      <InputNumber style={{ width: '100%' }} />
+    </FormItem>
+  </Form>
+, mountNode);
 
 ReactDOM.render(<WrappedNormalLoginForm />, document.getElementById('root'));
 
